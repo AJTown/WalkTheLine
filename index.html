@@ -1,0 +1,32 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walk The Line</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<script src="main.js" charset="utf-8" type="text/javascript"></script>
+
+<body>
+    <div class="slidecontainer">
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+        <p>Value: <span id="NumOfIterations"></span></p>
+    </div>
+
+    <script>
+        var slider = document.getElementById("myRange");
+        var NumOfIters = document.getElementById("NumOfIterations");
+        NumOfIters.innerHTML = slider.value;
+
+        slider.oninput = function() {
+            NumOfIters.innerHTML = this.value;
+        }
+    </script>
+    <p id="Respect">0 Respect</p>
+    <p id="GoodBehaviour">0 Good Behaviours</p>
+    <button id="GBButton" onclick="AddIterations(JobQueue,2,NumOfIters.innerHTML)">Good Behaviours</button>
+    <button id="RespectButton" onclick="AddIterations(JobQueue,1,NumOfIters.innerHTML)">Gain Respect</button>
+</body>
+
+</html>
