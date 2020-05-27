@@ -5,26 +5,61 @@ var GameData = {
     Luck: 0,
     RespectPerSecond: 1,
     GoodBehaviourPerSecond: 1,
+    RespectLossFromGoodBehaviourPS: 1,
+    GoodBehaviourLossFromRespectPS: 1,
     StrengthReward: 1,
     LuckReward: 1,
+    SliderMin: 0,
+    SliderMax: 30,
     TimeOut: 30,
-    Speed: 1000
+    Speed: 1000,
+    Update: 1
 };
 
 var Upgrades = {
+    Respect: 0,
+    GoodBehaviour: 0,
+    Strength: 0,
+    Luck: 0,
     RespectPerSecond: 1,
     GoodBehaviourPerSecond: 1,
+    RespectLossFromGoodBehaviourPS: 1,
+    GoodBehaviourLossFromRespectPS: 1,
     StrengthReward: 1,
     LuckReward: 1,
+    SliderMin: 0,
+    SliderMax: 30,
+    TimeOut: 30,
+    Speed: 1000,
+    Update: 1
 };
 
 
 function UpdateGameData() {
-    GameData.RespectPerSecond = Upgrades.RespectPerSecond;
-    GameData.GoodBehaviourPerSecond = Upgrades.GoodBehaviourPerSecond;
-    GameData.StrengthReward = Upgrades.StrengthReward;
-    GameData.LuckReward = Upgrades.LuckReward;
+    GameData = Upgrades
+};
+
+function UpdateValues() {
+    document.getElementById("Respect").innerHTML = GameData.Respect + " Respect";
+    document.getElementById("GoodBehaviour").innerHTML = GameData.GoodBehaviour + " Good Behaviour"; //print respect to page
 }
+
+function UpdateSlider() {
+    document.getElementById("myRange").min = GameData.SliderMin
+    document.getElementById("myRange").max = GameData.SliderMax
+    document.getElementById("myRange").value = Math.floor(((GameData.SliderMax - GameData.SliderMin) / 2) + GameData.SliderMin)
+}
+
+function LoadGame() {
+    var savegame = JSON.parse(localStorage.getItem("walkTheLineSave"))
+    if (savegame !== null) {
+        GameData = savegame
+        Upgrades = savegame
+    }
+    UpdateValues()
+    UpdateSlider()
+};
+
 window.InLoop = 0
 var JobQueue = []
     // This function accrues respect over time, 
@@ -34,9 +69,13 @@ function GainRespect(Iters) {
     InLoop = 1
     var RespectLoop = window.setInterval(function() {
         GameData.Respect += GameData.RespectPerSecond;
-        document.getElementById("Respect").innerHTML = GameData.Respect + " Respect";
+        GameData.GoodBehaviour -= GameData.GoodBehaviourLossFromRespectPS;
+        Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
+        Upgrades.Respect = GameData.Respect; //Lose Respect
+        UpdateValues()
         if (Iters === 1) {
             UpdateGameData();
+            UpdateSlider();
             InLoop = 0
             clearInterval(RespectLoop);
         }
@@ -49,11 +88,15 @@ function GoodBehaviours(Iters) {
     UpdateGameData();
     InLoop = 1
     var GooodBehaviourLoop = window.setInterval(function() {
-        GameData.GoodBehaviour += GameData.GoodBehaviourPerSecond; //Accrue Respect
-        document.getElementById("GoodBehaviour").innerHTML = GameData.GoodBehaviour + " Good Behaviour"; //print respect to page
+        GameData.GoodBehaviour += GameData.GoodBehaviourPerSecond; //Accrue Good Behaviours
+        GameData.Respect -= GameData.RespectLossFromGoodBehaviourPS; //Lose Respect
+        Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
+        Upgrades.Respect = GameData.Respect; //Lose Respect
+        UpdateValues()
         if (Iters === 1) {
             //Update againstupgrades
             UpdateGameData();
+            UpdateSlider();
             InLoop = 0
             clearInterval(GooodBehaviourLoop);
         }
@@ -78,8 +121,19 @@ function RunIterations(JobQueue) {
     }
 };
 
+
+
 var mainGameLoop = window.setInterval(function() {
     if (InLoop == 0) {
         RunIterations(JobQueue)
     }
 }, GameData.Speed);
+
+var saveGameLoop = window.setInterval(function() {
+    localStorage.setItem("walkTheLineSave", JSON.stringify(Upgrades))
+}, 15000)
+
+
+
+
+//if (typeof savegame.dwarves !== "undefined") gameData.dwarves = savegame.dwarves;
