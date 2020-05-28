@@ -9,8 +9,8 @@ var GameData = {
     GoodBehaviourLossFromRespectPS: 1,
     StrengthReward: 1,
     LuckReward: 1,
-    SliderMin: 0,
-    SliderMax: 30,
+    SliderMin: 30,
+    SliderMax: 500,
     TimeOut: 30,
     Speed: 1000,
     Update: 1
@@ -27,8 +27,8 @@ var Upgrades = {
     GoodBehaviourLossFromRespectPS: 1,
     StrengthReward: 1,
     LuckReward: 1,
-    SliderMin: 0,
-    SliderMax: 30,
+    SliderMin: 30,
+    SliderMax: 500,
     TimeOut: 30,
     Speed: 1000,
     Update: 1
@@ -47,7 +47,7 @@ function UpdateValues() {
 function UpdateSlider() {
     document.getElementById("myRange").min = GameData.SliderMin
     document.getElementById("myRange").max = GameData.SliderMax
-    document.getElementById("myRange").value = Math.floor(((GameData.SliderMax - GameData.SliderMin) / 2) + GameData.SliderMin)
+        //    document.getElementById("myRange").value = Math.floor(((GameData.SliderMax - GameData.SliderMin) / 2) + GameData.SliderMin)
 }
 
 function LoadGame() {
@@ -68,8 +68,8 @@ function GainRespect(Iters) {
     UpdateGameData();
     InLoop = 1
     var RespectLoop = window.setInterval(function() {
-        GameData.Respect += GameData.RespectPerSecond;
-        GameData.GoodBehaviour -= GameData.GoodBehaviourLossFromRespectPS;
+        GameData.Respect += Math.floor(GameData.RespectPerSecond * (0.00001 * Math.pow((Iters - 30), 2) + 1));
+        GameData.GoodBehaviour -= Math.floor(GameData.GoodBehaviourLossFromRespectPS * (0.00001 * Math.pow((Iters - 30), 2) + 1));
         Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
         Upgrades.Respect = GameData.Respect; //Lose Respect
         UpdateValues()
@@ -88,8 +88,8 @@ function GoodBehaviours(Iters) {
     UpdateGameData();
     InLoop = 1
     var GooodBehaviourLoop = window.setInterval(function() {
-        GameData.GoodBehaviour += GameData.GoodBehaviourPerSecond; //Accrue Good Behaviours
-        GameData.Respect -= GameData.RespectLossFromGoodBehaviourPS; //Lose Respect
+        GameData.GoodBehaviour += Math.floor(GameData.GoodBehaviourPerSecond * (0.00001 * Math.pow((Iters - 30), 2) + 1)); //Accrue Good Behaviours
+        GameData.Respect -= Math.floor(GameData.RespectLossFromGoodBehaviourPS * (0.00001 * Math.pow((Iters - 30), 2) + 1)); //Lose Respect
         Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
         Upgrades.Respect = GameData.Respect; //Lose Respect
         UpdateValues()
