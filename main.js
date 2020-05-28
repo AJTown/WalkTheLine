@@ -104,15 +104,14 @@ function GoodBehaviours(Iters, CurrencyPerSecond) {
     }, GameData.Speed)
 };
 
-function AddIterations(JobQueue, Job, Iterations) {
-    JobQueue.push([Job, Iterations])
-    NextJob = JobQueue[0]
+function AddIterations(JobQueue, Job, Iterations, CurrencyPS) {
+    JobQueue.push([Job, Iterations, CurrencyPS])
 };
 
 function RunIterations(JobQueue) {
     if (JobQueue.length > 0) {
         let Iters = JobQueue[0][1]
-        let CurrencyPerSecond = JobQueue[0][1]
+        let CurrencyPerSecond = JobQueue[0][2]
         if (JobQueue[0][0] === 1) {
             GainRespect(Iters, CurrencyPerSecond)
         } else {
