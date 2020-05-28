@@ -64,12 +64,12 @@ window.InLoop = 0
 var JobQueue = []
     // This function accrues respect over time, 
     // upgrades can be purchased but shouldn't take affect until after the loop has finished
-function GainRespect(Iters) {
+function GainRespect(Iters, CurrencyPerSecond) {
     UpdateGameData();
     InLoop = 1
     var RespectLoop = window.setInterval(function() {
-        GameData.Respect += Math.floor(GameData.RespectPerSecond * (0.00001 * Math.pow((Iters - 30), 2) + 1));
-        GameData.GoodBehaviour -= Math.floor(GameData.GoodBehaviourLossFromRespectPS * (0.00001 * Math.pow((Iters - 30), 2) + 1));
+        GameData.Respect += Math.floor(GameData.RespectPerSecond * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1));
+        GameData.GoodBehaviour -= Math.floor(GameData.GoodBehaviourLossFromRespectPS * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1));
         Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
         Upgrades.Respect = GameData.Respect; //Lose Respect
         UpdateValues()
@@ -84,12 +84,12 @@ function GainRespect(Iters) {
 };
 // //This function accrues Good Behaviours over time, 
 // //upgrades can be purchased but shouldn't take affect until after the loop has finished
-function GoodBehaviours(Iters) {
+function GoodBehaviours(Iters, CurrencyPerSecond) {
     UpdateGameData();
     InLoop = 1
     var GooodBehaviourLoop = window.setInterval(function() {
-        GameData.GoodBehaviour += Math.floor(GameData.GoodBehaviourPerSecond * (0.00001 * Math.pow((Iters - 30), 2) + 1)); //Accrue Good Behaviours
-        GameData.Respect -= Math.floor(GameData.RespectLossFromGoodBehaviourPS * (0.00001 * Math.pow((Iters - 30), 2) + 1)); //Lose Respect
+        GameData.GoodBehaviour += Math.floor(GameData.GoodBehaviourPerSecond * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1)); //Accrue Good Behaviours
+        GameData.Respect -= Math.floor(GameData.RespectLossFromGoodBehaviourPS * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1)); //Lose Respect
         Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
         Upgrades.Respect = GameData.Respect; //Lose Respect
         UpdateValues()
@@ -112,10 +112,11 @@ function AddIterations(JobQueue, Job, Iterations) {
 function RunIterations(JobQueue) {
     if (JobQueue.length > 0) {
         let Iters = JobQueue[0][1]
+        let CurrencyPerSecond = JobQueue[0][1]
         if (JobQueue[0][0] === 1) {
-            GainRespect(Iters)
+            GainRespect(Iters, CurrencyPerSecond)
         } else {
-            GoodBehaviours(Iters)
+            GoodBehaviours(Iters, CurrencyPerSecond)
         }
         JobQueue.shift()
     }
