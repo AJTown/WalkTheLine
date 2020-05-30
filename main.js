@@ -1,19 +1,33 @@
+function costGrowth(Rate, N) {
+    return Math.ceil(RespectUpgradeCost * Math.pow(Rate, N));
+};
+
+function BuyRespectUpgrade(Multi) {
+    RespectUpgradeCost = costGrowth(1.07, RespectUpgrades)
+    RespectMultiplier *= Multi
+};
+
 var GameData = {
     Respect: 0,
     GoodBehaviour: 0,
     Strength: 0,
     Luck: 0,
     RespectPerSecond: 1,
+    RespectMultiplier: 1,
     GoodBehaviourPerSecond: 1,
     RespectLossFromGoodBehaviourPS: 1,
     GoodBehaviourLossFromRespectPS: 1,
+    RespectUpgrades: 0,
+    RespectUpgradeCost: 10,
     StrengthReward: 1,
     LuckReward: 1,
     SliderMin: 30,
     SliderMax: 500,
     TimeOut: 30,
     Speed: 1000,
-    Update: 1
+    Update: 1,
+    RespectUpgrade: 100,
+    GoodBehaviourUpgrade: 1000000
 };
 
 var Upgrades = {
@@ -22,16 +36,21 @@ var Upgrades = {
     Strength: 0,
     Luck: 0,
     RespectPerSecond: 1,
+    RespectMultiplier: 1,
     GoodBehaviourPerSecond: 1,
     RespectLossFromGoodBehaviourPS: 1,
     GoodBehaviourLossFromRespectPS: 1,
+    RespectUpgrades: 0,
+    RespectUpgradeCost: 10,
     StrengthReward: 1,
     LuckReward: 1,
     SliderMin: 30,
     SliderMax: 500,
     TimeOut: 30,
     Speed: 1000,
-    Update: 1
+    Update: 1,
+    RespectUpgrade: 100,
+    GoodBehaviourUpgrade: 1000000
 };
 
 
@@ -48,7 +67,7 @@ function UpdateSlider() {
     document.getElementById("myRange").min = GameData.SliderMin
     document.getElementById("myRange").max = GameData.SliderMax
         //    document.getElementById("myRange").value = Math.floor(((GameData.SliderMax - GameData.SliderMin) / 2) + GameData.SliderMin)
-}
+};
 
 function LoadGame() {
     var savegame = JSON.parse(localStorage.getItem("walkTheLineSave"))
@@ -68,7 +87,7 @@ function GainRespect(Iters, CurrencyPerSecond) {
     UpdateGameData();
     InLoop = 1
     var RespectLoop = window.setInterval(function() {
-        GameData.Respect += Math.floor(GameData.RespectPerSecond * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1));
+        GameData.Respect += GameData.RespectMultiplier * Math.floor(GameData.RespectPerSecond * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1));
         GameData.GoodBehaviour -= Math.floor(GameData.GoodBehaviourLossFromRespectPS * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1));
         Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
         Upgrades.Respect = GameData.Respect; //Lose Respect
