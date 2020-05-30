@@ -105,9 +105,12 @@ window.InLoop = 0
 var JobQueue = []
     // This function accrues respect over time, 
     // upgrades can be purchased but shouldn't take affect until after the loop has finished
-function GainRespect(Iters, CurrencyPerSecond) {
+
+RespectIters = 0
+GBIters = 0
+
+function GainRespect(CurrencyPerSecond) {
     InLoop = 1
-    RespectIters = Iters
     var RespectLoop = window.setInterval(function() {
         GameData.Respect += GameData.RespectMultiplier * SliderMulti(GameData.RespectPerSecond, CurrencyPerSecond);
         GameData.GoodBehaviour -= GameData.GoodBehaviourLossMultiplier * SliderMulti(GameData.GoodBehaviourLossFromRespectPS, CurrencyPerSecond);
@@ -116,7 +119,7 @@ function GainRespect(Iters, CurrencyPerSecond) {
         UpdateValues()
         if (RespectIters === 1) {
             InLoop = 0
-            CurrentJob = 0
+            CurrentJob[0] = [0]
             clearInterval(RespectLoop);
         }
         RespectIters--;
@@ -124,9 +127,8 @@ function GainRespect(Iters, CurrencyPerSecond) {
 };
 // //This function accrues Good Behaviours over time, 
 // //upgrades can be purchased but shouldn't take affect until after the loop has finished
-function GoodBehaviours(Iters, CurrencyPerSecond) {
+function GoodBehaviours(CurrencyPerSecond) {
     InLoop = 1
-    GBIters = Iters
     var GooodBehaviourLoop = window.setInterval(function() {
         GameData.GoodBehaviour += GameData.GoodBehaviourMultiplier * SliderMulti(GameData.GoodBehaviourPerSecond, CurrencyPerSecond); //Accrue Good Behaviours
         GameData.Respect -= GameData.RespectLossMultiplier * SliderMulti(GameData.RespectLossFromGoodBehaviourPS, CurrencyPerSecond);
@@ -135,7 +137,7 @@ function GoodBehaviours(Iters, CurrencyPerSecond) {
         UpdateValues()
         if (GBIters === 1) {
             InLoop = 0
-            CurrentJob = 0
+            CurrentJob[0] = 0
             clearInterval(GooodBehaviourLoop)
         }
         GBIters--;
@@ -150,13 +152,15 @@ function RunIterations(JobQueue) {
     if (JobQueue.length > 0) {
         let Iters = JobQueue[0][1]
         let CurrencyPerSecond = Iters
-        CurrentJob = JobQueue[0][0]
+        CurrentJob = JobQueue[0]
         if (JobQueue[0][0] === 1) {
             UpdateGameData()
-            GainRespect(Iters, CurrencyPerSecond)
+            GainRespect(CurrencyPerSecond)
+            ResptectIters = Iters
         } else {
             UpdateGameData()
             GoodBehaviours(Iters, CurrencyPerSecond)
+            GBIters = Iters
         }
         JobQueue.shift()
     }
@@ -169,16 +173,18 @@ var mainGameLoop = window.setInterval(function() {
 }, 20);
 
 function SpeedGameUp() {
-    if (CurrentJob == 1) {
-        GameData.GoodBehaviour += GameData.GoodBehaviourMultiplier * SliderMulti(GameData.GoodBehaviourPerSecond, CurrencyPerSecond); //Accrue Good Behaviours
-        GameData.Respect -= GameData.RespectLossMultiplier * SliderMulti(GameData.RespectLossFromGoodBehaviourPS, CurrencyPerSecond);
+    if (CurrentJob[0] == 2) {
+        CurrencyPerSecondManual = CurrentJob[1]
+        GameData.GoodBehaviour += GameData.GoodBehaviourMultiplier * SliderMulti(GameData.GoodBehaviourPerSecond, CurrencyPerSecondManual); //Accrue Good Behaviours
+        GameData.Respect -= GameData.RespectLossMultiplier * SliderMulti(GameData.RespectLossFromGoodBehaviourPS, CurrencyPerSecondManual);
         Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
         Upgrades.Respect = GameData.Respect; //Lose Respect
         UpdateValues()
         GBIters--
-    } else if (CurrentJob == 2) {
-        GameData.Respect += GameData.RespectMultiplier * SliderMulti(GameData.RespectPerSecond, CurrencyPerSecond);
-        GameData.GoodBehaviour -= GameData.GoodBehaviourLossMultiplier * SliderMulti(GameData.GoodBehaviourLossFromRespectPS, CurrencyPerSecond);
+    } else if (CurrentJob[0] == 1) {
+        CurrencyPerSecondManual = CurrentJob[1]
+        GameData.Respect += GameData.RespectMultiplier * SliderMulti(GameData.RespectPerSecond, CurrencyPerSecondManual);
+        GameData.GoodBehaviour -= GameData.GoodBehaviourLossMultiplier * SliderMulti(GameData.GoodBehaviourLossFromRespectPS, CurrencyPerSecondManual);
         Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
         Upgrades.Respect = GameData.Respect; //Lose Respect
         UpdateValues()
@@ -190,7 +196,5 @@ function SpeedGameUp() {
 //     localStorage.setItem("walkTheLineSave", JSON.stringify(Upgrades))
 // }, 15000)
 
-
-
-
+//For updates to save games
 //if (typeof savegame.dwarves !== "undefined") gameData.dwarves = savegame.dwarves;
