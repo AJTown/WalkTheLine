@@ -70,11 +70,11 @@ function UpdateSlider() {
 };
 
 function LoadGame() {
-    var savegame = JSON.parse(localStorage.getItem("walkTheLineSave"))
-    if (savegame !== null) {
-        GameData = savegame
-        Upgrades = savegame
-    }
+    // var savegame = JSON.parse(localStorage.getItem("walkTheLineSave"))
+    // if (savegame !== null) {
+    //     GameData = savegame
+    //     Upgrades = savegame
+    // }
     UpdateValues()
     UpdateSlider()
 };
@@ -148,9 +148,9 @@ var mainGameLoop = window.setInterval(function() {
     }
 }, GameData.Speed);
 
-var saveGameLoop = window.setInterval(function() {
-    localStorage.setItem("walkTheLineSave", JSON.stringify(Upgrades))
-}, 15000)
+// var saveGameLoop = window.setInterval(function() {
+//     localStorage.setItem("walkTheLineSave", JSON.stringify(Upgrades))
+// }, 15000)
 
 
 
