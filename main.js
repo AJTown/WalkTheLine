@@ -21,7 +21,9 @@ var GameData = {
     Speed: 1000,
     Update: 1,
     RespectUpgradeCost: 100,
-    GoodBehaviourUpgradeCost: 1000000
+    GoodBehaviourUpgradeCost: 1000000,
+    ShopVisible: 0,
+    SpeedUpAmountPerClick: 0
 };
 
 var Upgrades = {
@@ -47,7 +49,9 @@ var Upgrades = {
     Speed: 1000,
     Update: 1,
     RespectUpgradeCost: 100,
-    GoodBehaviourUpgradeCost: 1000000
+    GoodBehaviourUpgradeCost: 1000000,
+    ShopVisible: 0,
+    SpeedUpAmountPerClick: 0
 };
 
 function costGrowth(Rate, N) {
@@ -103,36 +107,38 @@ var JobQueue = []
     // upgrades can be purchased but shouldn't take affect until after the loop has finished
 function GainRespect(Iters, CurrencyPerSecond) {
     InLoop = 1
+    RespectIters = Iters
     var RespectLoop = window.setInterval(function() {
         GameData.Respect += GameData.RespectMultiplier * SliderMulti(GameData.RespectPerSecond, CurrencyPerSecond);
         GameData.GoodBehaviour -= GameData.GoodBehaviourLossMultiplier * SliderMulti(GameData.GoodBehaviourLossFromRespectPS, CurrencyPerSecond);
         Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
         Upgrades.Respect = GameData.Respect; //Lose Respect
         UpdateValues()
-        if (Iters === 1) {
+        if (RespectIters === 1) {
             InLoop = 0
+            CurrentJob = 0
             clearInterval(RespectLoop);
         }
-        Iters--;
+        RespectIters--;
     }, GameData.Speed)
 };
 // //This function accrues Good Behaviours over time, 
 // //upgrades can be purchased but shouldn't take affect until after the loop has finished
 function GoodBehaviours(Iters, CurrencyPerSecond) {
     InLoop = 1
+    GBIters = Iters
     var GooodBehaviourLoop = window.setInterval(function() {
         GameData.GoodBehaviour += GameData.GoodBehaviourMultiplier * SliderMulti(GameData.GoodBehaviourPerSecond, CurrencyPerSecond); //Accrue Good Behaviours
         GameData.Respect -= GameData.RespectLossMultiplier * SliderMulti(GameData.RespectLossFromGoodBehaviourPS, CurrencyPerSecond);
         Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
         Upgrades.Respect = GameData.Respect; //Lose Respect
         UpdateValues()
-        if (Iters === 1) {
-            //Update againstupgrades
-            UpdateSlider();
+        if (GBIters === 1) {
             InLoop = 0
-            clearInterval(GooodBehaviourLoop);
+            CurrentJob = 0
+            clearInterval(GooodBehaviourLoop)
         }
-        Iters--;
+        GBIters--;
     }, GameData.Speed)
 };
 
@@ -144,6 +150,7 @@ function RunIterations(JobQueue) {
     if (JobQueue.length > 0) {
         let Iters = JobQueue[0][1]
         let CurrencyPerSecond = Iters
+        CurrentJob = JobQueue[0][0]
         if (JobQueue[0][0] === 1) {
             UpdateGameData()
             GainRespect(Iters, CurrencyPerSecond)
@@ -155,13 +162,29 @@ function RunIterations(JobQueue) {
     }
 };
 
-
-
 var mainGameLoop = window.setInterval(function() {
     if (InLoop == 0) {
         RunIterations(JobQueue)
     }
 }, 20);
+
+function SpeedGameUp() {
+    if (CurrentJob == 1) {
+        GameData.GoodBehaviour += GameData.GoodBehaviourMultiplier * SliderMulti(GameData.GoodBehaviourPerSecond, CurrencyPerSecond); //Accrue Good Behaviours
+        GameData.Respect -= GameData.RespectLossMultiplier * SliderMulti(GameData.RespectLossFromGoodBehaviourPS, CurrencyPerSecond);
+        Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
+        Upgrades.Respect = GameData.Respect; //Lose Respect
+        UpdateValues()
+        GBIters--
+    } else if (CurrentJob == 2) {
+        GameData.Respect += GameData.RespectMultiplier * SliderMulti(GameData.RespectPerSecond, CurrencyPerSecond);
+        GameData.GoodBehaviour -= GameData.GoodBehaviourLossMultiplier * SliderMulti(GameData.GoodBehaviourLossFromRespectPS, CurrencyPerSecond);
+        Upgrades.GoodBehaviour = GameData.GoodBehaviour; //Accrue Good Behaviours
+        Upgrades.Respect = GameData.Respect; //Lose Respect
+        UpdateValues()
+        RespectIters--
+    }
+};
 
 // var saveGameLoop = window.setInterval(function() {
 //     localStorage.setItem("walkTheLineSave", JSON.stringify(Upgrades))
