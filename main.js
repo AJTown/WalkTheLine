@@ -161,7 +161,7 @@ var mainGameLoop = window.setInterval(function() {
     if (InLoop == 0) {
         RunIterations(JobQueue)
     }
-}, GameData.Speed);
+}, 20);
 
 // var saveGameLoop = window.setInterval(function() {
 //     localStorage.setItem("walkTheLineSave", JSON.stringify(Upgrades))
