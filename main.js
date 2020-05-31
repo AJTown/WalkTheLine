@@ -87,17 +87,21 @@ function costGrowth(Rate, N) {
 };
 
 function BuyRespectUpgrade(Multi) {
+    GameData.Respect -= Upgrades.RespectUpgradeCost
     Upgrades.RespectUpgradeCost = costGrowth(1.07, Upgrades.RespectUpgrades);
     Upgrades.RespectUpgrades += 1;
     Upgrades.RespectMultiplier *= Multi;
     Upgrades.GoodBehaviourLossMultiplier *= Multi;
+    UpdateValues()
 };
 
 function BuyGoodBehaviourUpgrade(Multi) {
+    GameData.GoodBehaviour -= Upgrades.GoodBehaviourUpgradeCost
     Upgrades.GoodBehaviourUpgradeCost = costGrowth(1.07, Upgrades.GoodBehaviourUpgrades);
     Upgrades.GoodBehaviourUpgrades += 1;
     Upgrades.GoodBehaviourMultiplier *= Multi;
     Upgrades.RespectLossMultiplier *= Multi;
+    UpdateValues()
 };
 
 function SliderMulti(x, CurrencyPerSecond) {

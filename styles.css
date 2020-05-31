@@ -25,6 +25,10 @@
     top: 1px;
 }
 
+.myButton:disabled {
+    opacity: 0.2;
+}
+
 .centreFocus {
     text-align: centre;
 }
