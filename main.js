@@ -54,6 +54,34 @@ var Upgrades = {
     SpeedUpAmountPerClick: 0
 };
 
+var HardReset = {
+    Respect: 0,
+    GoodBehaviour: 0,
+    Strength: 0,
+    Luck: 0,
+    RespectPerSecond: 1,
+    RespectMultiplier: 1,
+    GoodBehaviourMultiplier: 1,
+    GoodBehaviourLossMultiplier: 1,
+    RespectLossMultiplier: 1,
+    GoodBehaviourPerSecond: 1,
+    RespectLossFromGoodBehaviourPS: 1,
+    GoodBehaviourLossFromRespectPS: 1,
+    RespectUpgrades: 1,
+    GoodBehaviourUpgrades: 1,
+    StrengthReward: 1,
+    LuckReward: 1,
+    SliderMin: 30,
+    SliderMax: 500,
+    TimeOut: 30,
+    Speed: 1000,
+    Update: 1,
+    RespectUpgradeCost: 100,
+    GoodBehaviourUpgradeCost: 1000000,
+    ShopVisible: 0,
+    SpeedUpAmountPerClick: 0
+}
+
 function costGrowth(Rate, N) {
     return Math.ceil(Upgrades.RespectUpgradeCost * Math.pow(Rate, N));
 };
@@ -92,19 +120,17 @@ function UpdateSlider() {
 };
 
 function LoadGame() {
-    // var savegame = JSON.parse(localStorage.getItem("walkTheLineSave"))
-    // if (savegame !== null) {
-    //     GameData = savegame
-    //     Upgrades = savegame
-    // }
+    var savegame = JSON.parse(localStorage.getItem("walkTheLineSave"))
+    if (savegame !== null) {
+        GameData = savegame
+        Upgrades = savegame
+    }
     UpdateValues()
     UpdateSlider()
 };
 
 window.InLoop = 0
 var JobQueue = []
-    // This function accrues respect over time, 
-    // upgrades can be purchased but shouldn't take affect until after the loop has finished
 
 RespectIters = 0
 GBIters = 0
@@ -125,8 +151,7 @@ function GainRespect(CurrencyPerSecond) {
         RespectIters--;
     }, GameData.Speed)
 };
-// //This function accrues Good Behaviours over time, 
-// //upgrades can be purchased but shouldn't take affect until after the loop has finished
+
 function GoodBehaviours(CurrencyPerSecond) {
     InLoop = 1
     var GooodBehaviourLoop = window.setInterval(function() {
@@ -192,10 +217,14 @@ var mainGameLoop = window.setInterval(function() {
     if (InLoop == 0) {
         RunIterations(JobQueue)
     }
+    ResetButtonClickCountReset++
+    if (ResetButtonClickCountReset >= 400) {
+        ResetButtonClickCount = 0
+    }
 }, 20);
 
 function SpeedGameUp() {
-    if (GBIters >= 1 || RespectIters >= 1) {
+    if (GBIters > 1 || RespectIters > 1) {
         if (CurrentJob[0] == 2) {
             CurrencyPerSecondManual = CurrentJob[1]
             GameData.GoodBehaviour += GameData.GoodBehaviourMultiplier * SliderMulti(GameData.GoodBehaviourPerSecond, CurrencyPerSecondManual); //Accrue Good Behaviours
@@ -216,9 +245,20 @@ function SpeedGameUp() {
     }
 };
 
-// var saveGameLoop = window.setInterval(function() {
-//     localStorage.setItem("walkTheLineSave", JSON.stringify(Upgrades))
-// }, 15000)
+var saveGameLoop = window.setInterval(function() {
+    localStorage.setItem("walkTheLineSave", JSON.stringify(Upgrades))
+}, 15000)
+
+ResetButtonClickCount = 0
+ResetButtonClickCountReset = 0
+
+function ResetButton() {
+    ResetButtonClickCount++
+    if (ResetButtonClickCount >= 10) {
+        localStorage.removeItem("walkTheLineSave")
+        location.reload()
+    }
+}
 
 //For updates to save games
 //if (typeof savegame.dwarves !== "undefined") gameData.dwarves = savegame.dwarves;
