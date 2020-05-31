@@ -156,17 +156,39 @@ function RunIterations(JobQueue) {
         if (JobQueue[0][0] === 1) {
             UpdateGameData()
             GainRespect(CurrencyPerSecond)
-            ResptectIters = Iters
+            RespectIters = Iters
         } else {
             UpdateGameData()
-            GoodBehaviours(Iters, CurrencyPerSecond)
+            GoodBehaviours(CurrencyPerSecond)
             GBIters = Iters
         }
         JobQueue.shift()
     }
 };
 
+function DisableRespectUpgrade() {
+    document.getElementById("RespectUpgrade").disabled = true
+}
+
+function EnableRespectUpgrade() {
+    document.getElementById("RespectUpgrade").disabled = false
+}
+
+function DisableGBUpgrade() {
+    document.getElementById("GBUpgrade").disabled = true
+}
+
+function EnableGBUpgrade() {
+    document.getElementById("GBUpgrade").disabled = false
+}
+
 var mainGameLoop = window.setInterval(function() {
+    if (GameData.Respect >= Upgrades.RespectUpgradeCost) {
+        EnableRespectUpgrade()
+    } else { DisableRespectUpgrade() };
+    if (GameData.GoodBehaviour >= Upgrades.GoodBehaviourUpgradeCost) {
+        EnableGBUpgrade()
+    } else { DisableGBUpgrade() };
     if (InLoop == 0) {
         RunIterations(JobQueue)
     }
