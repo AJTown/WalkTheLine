@@ -85,6 +85,7 @@ var HardReset = {
 function costGrowth(Rate, N) {
     return Math.ceil(Upgrades.RespectUpgradeCost * Math.pow(Rate, N));
 };
+LatestNumOfItersHTML = 0
 
 function BuyRespectUpgrade(Multi) {
     GameData.Respect -= Upgrades.RespectUpgradeCost;
@@ -94,6 +95,7 @@ function BuyRespectUpgrade(Multi) {
     Upgrades.RespectMultiplier += Multi;
     Upgrades.GoodBehaviourLossMultiplier += Multi;
     document.getElementById("RespectUpgrade").innerHTML = "+200% Respect Per Second: " + GameData.RespectUpgradeCost + "R"
+    ValuePSPush(LatestNumOfItersHTML)
     UpdateValues()
 };
 
@@ -105,6 +107,7 @@ function BuyGoodBehaviourUpgrade(Multi) {
     Upgrades.GoodBehaviourMultiplier += Multi;
     Upgrades.RespectLossMultiplier += Multi;
     document.getElementById("GBUpgrade").innerHTML = "Upgrade Good Behaviours Per Second: " + GameData.GoodBehaviourUpgradeCost + "GB"
+    ValuePSPush(LatestNumOfItersHTML)
     UpdateValues()
 };
 
@@ -112,12 +115,13 @@ function SliderMulti(x, CurrencyPerSecond) {
     return Math.floor(x * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1))
 };
 
+
 function ValuePSPush(NumOfItersHTML) {
     document.getElementById("SliderRespectEarned").innerHTML = "Respect earned per job: " + SliderMulti(Upgrades.RespectPerSecond, NumOfItersHTML) * Upgrades.RespectMultiplier
     document.getElementById("SliderRespectLost").innerHTML = "Respect lost per job: " + SliderMulti(Upgrades.RespectLossFromGoodBehaviourPS, NumOfItersHTML) * Upgrades.RespectLossMultiplier
     document.getElementById("SliderGBEarned").innerHTML = "Good Behaviour earned per job: " + SliderMulti(Upgrades.GoodBehaviourPerSecond, NumOfItersHTML) * Upgrades.GoodBehaviourMultiplier
     document.getElementById("SliderGBLost").innerHTML = "Good Behaviour lost per job: " + SliderMulti(Upgrades.GoodBehaviourLossFromRespectPS, NumOfItersHTML) * Upgrades.GoodBehaviourLossMultiplier
-
+    LatestNumOfItersHTML = NumOfItersHTML
 };
 
 function UpdateGameData() {
