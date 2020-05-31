@@ -87,20 +87,24 @@ function costGrowth(Rate, N) {
 };
 
 function BuyRespectUpgrade(Multi) {
-    GameData.Respect -= Upgrades.RespectUpgradeCost
+    GameData.Respect -= Upgrades.RespectUpgradeCost;
+    GameData.RespectUpgradeCost = costGrowth(1.07, Upgrades.RespectUpgrades);
     Upgrades.RespectUpgradeCost = costGrowth(1.07, Upgrades.RespectUpgrades);
     Upgrades.RespectUpgrades += 1;
     Upgrades.RespectMultiplier *= Multi;
     Upgrades.GoodBehaviourLossMultiplier *= Multi;
+    document.getElementById("RespectUpgrade").innerHTML = "Triple Respect Per Second: " + GameData.RespectUpgradeCost + "R"
     UpdateValues()
 };
 
 function BuyGoodBehaviourUpgrade(Multi) {
     GameData.GoodBehaviour -= Upgrades.GoodBehaviourUpgradeCost
+    GameData.GoodBehaviourUpgradeCost = costGrowth(1.07, Upgrades.GoodBehaviourUpgrades);
     Upgrades.GoodBehaviourUpgradeCost = costGrowth(1.07, Upgrades.GoodBehaviourUpgrades);
     Upgrades.GoodBehaviourUpgrades += 1;
     Upgrades.GoodBehaviourMultiplier *= Multi;
     Upgrades.RespectLossMultiplier *= Multi;
+    document.getElementById("GBUpgrade").innerHTML = "Triple Good Behaviours Per Second: " + GameData.GoodBehaviourUpgradeCost + "GB"
     UpdateValues()
 };
 
