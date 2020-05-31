@@ -12,7 +12,6 @@
 <body class="Background" onload="LoadGame()">
     <div class="my-container">
         <h1 class="h1">Walk The Line</h1>
-        <br>
         <div class="centreFocus">
             <button class="myButton" id="SpeedUp" onclick="SpeedGameUp()">Manual Progress</button>
         </div>
@@ -27,26 +26,19 @@
                     range = $('.range-slider__range'),
                     value = $('.range-slider__value');
                 slider.each(function() {
-
                     value.each(function() {
                         var value = $(this).prev().attr('value');
                         $(this).html(value);
                     });
-
                     range.on('input', function() {
                         NumOfIters = this.value
                         $(this).next(value).html(this.value);
                     });
                 });
             };
-
             rangeSlider();
         </script>
-
-
         <p class="paragraph" style="text-align:center" id="IterationsLeft">Number of actions left: 0</p>
-
-
         <div class="two-col">
             <div class="col1">
                 <p class="paragraph" style="text-align:center" id="RespectValue">Amount of Respect:</p>
