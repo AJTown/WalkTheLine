@@ -108,6 +108,14 @@ function SliderMulti(x, CurrencyPerSecond) {
     return Math.floor(x * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1))
 };
 
+function ValuePSPush(NumOfItersHTML) {
+    document.getElementById("SliderRespectEarned").innerHTML = "Respect earned per job: " + SliderMulti(Upgrades.RespectPerSecond, NumOfItersHTML) * Upgrades.RespectMultiplier
+    document.getElementById("SliderRespectLost").innerHTML = "Respect lost per job: " + SliderMulti(Upgrades.RespectLossFromGoodBehaviourPS, NumOfItersHTML) * Upgrades.RespectLossMultiplier
+    document.getElementById("SliderGBEarned").innerHTML = "Good Behaviour earned per job: " + SliderMulti(Upgrades.GoodBehaviourPerSecond, NumOfItersHTML) * Upgrades.GoodBehaviourMultiplier
+    document.getElementById("SliderGBLost").innerHTML = "Good Behaviour lost per job: " + SliderMulti(Upgrades.GoodBehaviourLossFromRespectPS, NumOfItersHTML) * Upgrades.GoodBehaviourLossMultiplier
+
+};
+
 function UpdateGameData() {
     GameData = Object.assign({}, Upgrades)
 };

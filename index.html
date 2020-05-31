@@ -15,7 +15,19 @@
         <div class="centreFocus">
             <button class="myButton" id="SpeedUp" onclick="SpeedGameUp()">Manual Progress</button>
         </div>
-        <div class="range-slider">
+        <div class="two-col">
+            <div class="col1">
+                <p class="paragraph" id="SliderRespectEarned">Respect earned per job on next run: </p>
+                <p class="paragraph" id="SliderGBLost">Good Behaviour lost per job on next run: </p>
+
+            </div>
+            <div class="col2">
+                <p class="paragraph" id="SliderGBEarned">Good Behaviour earned per job on next run: </p>
+                <p class="paragraph" id="SliderRespectLost">Respect lost per job on next run: </p>
+
+            </div>
+        </div>
+        <div class="range-slider" oninput="ValuePSPush(NumOfItersHTML)">
             <input id="slider" class="range-slider__range" type="range" value="300" min="30" max="500">
             <span class="range-slider__value" id="sliderValue">0</span>
         </div>
@@ -31,7 +43,7 @@
                         $(this).html(value);
                     });
                     range.on('input', function() {
-                        NumOfIters = this.value
+                        NumOfItersHTML = this.value
                         $(this).next(value).html(this.value);
                     });
                 });
@@ -52,11 +64,11 @@
         </div>
         <div class="two-col">
             <div class="col1">
-                <button class="myButton" id="RespectButton" onclick="AddIterations(JobQueue,1,NumOfIters)">Gain Respect</button>
+                <button class="myButton" id="RespectButton" onclick="AddIterations(JobQueue,1,NumOfItersHTML)">Gain Respect</button>
 
             </div>
             <div class="col2">
-                <button class="myButton" id="GBButton" onclick="AddIterations(JobQueue,2,NumOfIters)">Good Behaviours</button>
+                <button class="myButton" id="GBButton" onclick="AddIterations(JobQueue,2,NumOfItersHTML)">Good Behaviours</button>
             </div>
         </div>
         <br>
