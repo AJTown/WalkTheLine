@@ -5,59 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Walk The Line</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <script src="main.js" charset="utf-8" type="text/javascript"></script>
 
-<body onload="LoadGame()">
-    <div class="slidecontainer">
-        <input type="range" min="30" max="530" value="280" class="slider" id="myRange">
-        <div class="two-col">
-            <div class="col1">
-                <p style="text-align:center" id="IterationsSelected">Number of times to do action: <span id="NumOfIterations"></span></p>
-            </div>
-
-            <div class="col2">
-                <p style="text-align:center" id="IterationsLeft">Number of actions left: 0</p>
-            </div>
-        </div>
+<body style="background-color: 474647;" onload="LoadGame()">
+    <div class="centreFocus">
+        <button class="myButton" id="SpeedUp" onclick="SpeedGameUp()">Manual Progress</button>
     </div>
-
+    <div class="range-slider">
+        <input id="slider" class="range-slider__range" type="range" value="300" min="30" max="500">
+        <span class="range-slider__value" id="sliderValue">0</span>
+    </div>
     <script>
-        var slider = document.getElementById("myRange");
-        var NumOfIters = document.getElementById("NumOfIterations");
-        NumOfIters.innerHTML = slider.value;
+        NumOfIters = 0
+        var rangeSlider = function() {
+            var slider = $('.range-slider'),
+                range = $('.range-slider__range'),
+                value = $('.range-slider__value');
+            slider.each(function() {
 
-        slider.oninput = function() {
-            NumOfIters.innerHTML = this.value;
-        }
+                value.each(function() {
+                    var value = $(this).prev().attr('value');
+                    $(this).html(value);
+                });
+
+                range.on('input', function() {
+                    NumOfIters = this.value
+                    $(this).next(value).html(this.value);
+                });
+            });
+        };
+
+        rangeSlider();
     </script>
+
+
+    <p class="paragraph" style="text-align:center" id="IterationsLeft">Number of actions left: 0</p>
+
+
     <div class="two-col">
         <div class="col1">
-            <p style="text-align:center" id="RespectValue">Amount of Respect:</p>
-            <p style="text-align:center" id="Respect">0</p>
+            <p class="paragraph" style="text-align:center" id="RespectValue">Amount of Respect:</p>
+            <p class="paragraph" style="text-align:center" id="Respect">0</p>
         </div>
 
         <div class="col2">
-            <p style="text-align:center" id="GBValue">Amount of Good Behaviours:</p>
-            <p style="text-align:center" id="GoodBehaviour">0</p>
+            <p class="paragraph" style="text-align:center" id="GBValue">Amount of Good Behaviours:</p>
+            <p class="paragraph" style="text-align:center" id="GoodBehaviour">0</p>
         </div>
-    </div>
-    <div>
-        <button id="SpeedUp" onclick="SpeedGameUp()">Manual Progress</button>
-    </div>
-    <br>
-    <div>
-        <button id="GBButton" onclick="AddIterations(JobQueue,2,NumOfIters.innerHTML)">Good Behaviours</button>
-        <button id="RespectButton" onclick="AddIterations(JobQueue,1,NumOfIters.innerHTML)">Gain Respect</button>
-    </div>
-    <br>
-    <div>
-        <button id="RespectUpgrade" onclick="BuyRespectUpgrade(3)">Triple Respect Per Second</button>
-        <button id="GBUpgrade" onclick="BuyGoodBehaviourUpgrade(3)">Upgrade Good Behaviour Per Second</button>
-    </div>
-    <br>
 
-    <button id="HardReset" onclick="ResetButton()">Hard Reset Button</button>
+        <div>
+            <button class="myButton" id="GBButton" onclick="AddIterations(JobQueue,2,NumOfIters)">Good Behaviours</button>
+            <button class="myButton" id="RespectButton" onclick="AddIterations(JobQueue,1,NumOfIters)">Gain Respect</button>
+        </div>
+        <br>
+        <div>
+            <button class="myButton" id="RespectUpgrade" onclick="BuyRespectUpgrade(3)">Triple Respect Per Second</button>
+            <button class="myButton" id="GBUpgrade" onclick="BuyGoodBehaviourUpgrade(3)">Upgrade Good Behaviour Per Second</button>
+        </div>
+        <br>
+
+        <button class="myButton" id="HardReset" onclick="ResetButton()">Hard Reset Button</button>
 </body>
 
 </html>

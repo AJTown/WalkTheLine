@@ -111,13 +111,14 @@ function UpdateGameData() {
 function UpdateValues() {
     document.getElementById("Respect").innerHTML = GameData.Respect;
     document.getElementById("GoodBehaviour").innerHTML = GameData.GoodBehaviour; //print respect to page
-    document.getElementById("IterationsLeft").innerHTML = "Number of actions left: " + (RespectIters + GBIters)
+    TotalIters = RespectIters + GBIters
+    document.getElementById("IterationsLeft").innerHTML = "Number of actions left: " + TotalIters
 }
 
 function UpdateSlider() {
-    document.getElementById("myRange").min = GameData.SliderMin
-    document.getElementById("myRange").max = GameData.SliderMax
-    document.getElementById("myRange").value = Math.floor(((GameData.SliderMax - GameData.SliderMin) / 2) + GameData.SliderMin)
+    document.getElementById("slider").min = GameData.SliderMin
+    document.getElementById("slider").max = GameData.SliderMax
+    document.getElementById("slider").value = Math.floor(((GameData.SliderMax - GameData.SliderMin) / 2) + GameData.SliderMin)
 };
 
 function LoadGame() {
@@ -218,8 +219,9 @@ var mainGameLoop = window.setInterval(function() {
     if (InLoop == 0) {
         RunIterations(JobQueue)
     }
+    UpdateValues();
     ResetButtonClickCountReset++
-    if (ResetButtonClickCountReset >= 400) {
+    if (ResetButtonClickCountReset >= 1000) {
         ResetButtonClickCount = 0
     }
 }, 20);
