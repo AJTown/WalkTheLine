@@ -54,19 +54,24 @@
             <p class="paragraph" style="text-align:center" id="GBValue">Amount of Good Behaviours:</p>
             <p class="paragraph" style="text-align:center" id="GoodBehaviour">0</p>
         </div>
-
-        <div>
-            <button class="myButton" id="GBButton" onclick="AddIterations(JobQueue,2,NumOfIters)">Good Behaviours</button>
+    </div>
+    <div class="two-col">
+        <div class="col1">
             <button class="myButton" id="RespectButton" onclick="AddIterations(JobQueue,1,NumOfIters)">Gain Respect</button>
-        </div>
-        <br>
-        <div>
-            <button class="myButton" id="RespectUpgrade" onclick="BuyRespectUpgrade(3)">Triple Respect Per Second</button>
-            <button class="myButton" id="GBUpgrade" onclick="BuyGoodBehaviourUpgrade(3)">Upgrade Good Behaviour Per Second</button>
-        </div>
-        <br>
 
-        <button class="myButton" id="HardReset" onclick="ResetButton()">Hard Reset Button</button>
+        </div>
+        <div class="col2">
+            <button class="myButton" id="GBButton" onclick="AddIterations(JobQueue,2,NumOfIters)">Good Behaviours</button>
+        </div>
+    </div>
+    <br>
+    <div>
+        <button class="myButton" id="RespectUpgrade" onclick="BuyRespectUpgrade(3)">Triple Respect Per Second</button>
+        <button class="myButton" id="GBUpgrade" onclick="BuyGoodBehaviourUpgrade(3)">Upgrade Good Behaviour Per Second</button>
+    </div>
+    <br>
+
+    <button class="myButton" id="HardReset" onclick="ResetButton()">Hard Reset Button</button>
 </body>
 
 </html>

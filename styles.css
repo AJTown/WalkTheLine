@@ -30,7 +30,7 @@
 }
 
 .centreFocus {
-    text-align: centre;
+    text-align: center;
 }
 
 *,
@@ -156,10 +156,12 @@ input::-moz-focus-outer {
 
 .two-col .col1 {
     float: left;
+    text-align: center;
 }
 
 .two-col .col2 {
     float: right;
+    text-align: center
 }
 
 .two-col label {
