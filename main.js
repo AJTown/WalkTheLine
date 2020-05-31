@@ -109,8 +109,9 @@ function UpdateGameData() {
 };
 
 function UpdateValues() {
-    document.getElementById("Respect").innerHTML = GameData.Respect + " Respect";
-    document.getElementById("GoodBehaviour").innerHTML = GameData.GoodBehaviour + " Good Behaviour"; //print respect to page
+    document.getElementById("Respect").innerHTML = GameData.Respect;
+    document.getElementById("GoodBehaviour").innerHTML = GameData.GoodBehaviour; //print respect to page
+    document.getElementById("IterationsLeft").innerHTML = "Number of actions left: " + (RespectIters + GBIters)
 }
 
 function UpdateSlider() {
