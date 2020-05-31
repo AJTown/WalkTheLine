@@ -9,76 +9,77 @@
 </head>
 <script src="main.js" charset="utf-8" type="text/javascript"></script>
 
-<body style="background-color: 474647;" onload="LoadGame()">
-    <h1 class="h1">Walk The Line</h1>
-    <br>
-    <div class="centreFocus">
-        <button class="myButton" id="SpeedUp" onclick="SpeedGameUp()">Manual Progress</button>
-    </div>
-    <div class="range-slider">
-        <input id="slider" class="range-slider__range" type="range" value="300" min="30" max="500">
-        <span class="range-slider__value" id="sliderValue">0</span>
-    </div>
-    <script>
-        NumOfIters = 0
-        var rangeSlider = function() {
-            var slider = $('.range-slider'),
-                range = $('.range-slider__range'),
-                value = $('.range-slider__value');
-            slider.each(function() {
+<body class="Background" onload="LoadGame()">
+    <div class="my-container">
+        <h1 class="h1">Walk The Line</h1>
+        <br>
+        <div class="centreFocus">
+            <button class="myButton" id="SpeedUp" onclick="SpeedGameUp()">Manual Progress</button>
+        </div>
+        <div class="range-slider">
+            <input id="slider" class="range-slider__range" type="range" value="300" min="30" max="500">
+            <span class="range-slider__value" id="sliderValue">0</span>
+        </div>
+        <script>
+            NumOfIters = 0
+            var rangeSlider = function() {
+                var slider = $('.range-slider'),
+                    range = $('.range-slider__range'),
+                    value = $('.range-slider__value');
+                slider.each(function() {
 
-                value.each(function() {
-                    var value = $(this).prev().attr('value');
-                    $(this).html(value);
+                    value.each(function() {
+                        var value = $(this).prev().attr('value');
+                        $(this).html(value);
+                    });
+
+                    range.on('input', function() {
+                        NumOfIters = this.value
+                        $(this).next(value).html(this.value);
+                    });
                 });
+            };
 
-                range.on('input', function() {
-                    NumOfIters = this.value
-                    $(this).next(value).html(this.value);
-                });
-            });
-        };
-
-        rangeSlider();
-    </script>
+            rangeSlider();
+        </script>
 
 
-    <p class="paragraph" style="text-align:center" id="IterationsLeft">Number of actions left: 0</p>
+        <p class="paragraph" style="text-align:center" id="IterationsLeft">Number of actions left: 0</p>
 
 
-    <div class="two-col">
-        <div class="col1">
-            <p class="paragraph" style="text-align:center" id="RespectValue">Amount of Respect:</p>
-            <p class="paragraph" style="text-align:center" id="Respect">0</p>
+        <div class="two-col">
+            <div class="col1">
+                <p class="paragraph" style="text-align:center" id="RespectValue">Amount of Respect:</p>
+                <p class="paragraph" style="text-align:center" id="Respect">0</p>
+            </div>
+
+            <div class="col2">
+                <p class="paragraph" style="text-align:center" id="GBValue">Amount of Good Behaviours:</p>
+                <p class="paragraph" style="text-align:center" id="GoodBehaviour">0</p>
+            </div>
         </div>
+        <div class="two-col">
+            <div class="col1">
+                <button class="myButton" id="RespectButton" onclick="AddIterations(JobQueue,1,NumOfIters)">Gain Respect</button>
 
-        <div class="col2">
-            <p class="paragraph" style="text-align:center" id="GBValue">Amount of Good Behaviours:</p>
-            <p class="paragraph" style="text-align:center" id="GoodBehaviour">0</p>
+            </div>
+            <div class="col2">
+                <button class="myButton" id="GBButton" onclick="AddIterations(JobQueue,2,NumOfIters)">Good Behaviours</button>
+            </div>
         </div>
+        <br>
+        <h2 class="h2">Upgrade Shop</h2>
+        <div id="upgrades">
+            <button class="myButton" id="RespectUpgrade" onclick="BuyRespectUpgrade(3)">Triple Respect Per Second</button>
+            <button class="myButton" id="GBUpgrade" onclick="BuyGoodBehaviourUpgrade(3)">Upgrade Good Behaviour Per Second</button>
+        </div>
+        <br>
+        <br>
+        <button class="HardReset" id="HardReset" onclick="ResetButton()">Hard Reset Button</button>
+        <br>
+        <p class="right">Image by <a href="https://pixabay.com/users/Ichigo121212-11728/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=553836">Ichigo121212</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=553836">Pixabay</a></p>
     </div>
-    <div class="two-col">
-        <div class="col1">
-            <button class="myButton" id="RespectButton" onclick="AddIterations(JobQueue,1,NumOfIters)">Gain Respect</button>
 
-        </div>
-        <div class="col2">
-            <button class="myButton" id="GBButton" onclick="AddIterations(JobQueue,2,NumOfIters)">Good Behaviours</button>
-        </div>
-    </div>
-    <br>
-    <br>
-    <br>
-    <h2 class="h2">Upgrade Shop</h2>
-    <div id="upgrades">
-        <button class="myButton" id="RespectUpgrade" onclick="BuyRespectUpgrade(3)">Triple Respect Per Second</button>
-        <button class="myButton" id="GBUpgrade" onclick="BuyGoodBehaviourUpgrade(3)">Upgrade Good Behaviour Per Second</button>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <button class="HardReset" id="HardReset" onclick="ResetButton()">Hard Reset Button</button>
 </body>
 
 </html>
