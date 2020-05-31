@@ -112,7 +112,7 @@ function BuyGoodBehaviourUpgrade(Multi) {
 };
 
 function SliderMulti(x, CurrencyPerSecond) {
-    return Math.floor(x * (0.00001 * Math.pow((CurrencyPerSecond - 30), 2) + 1))
+    return Math.floor((0.01 * CurrencyPerSecond) + 1) * x;
 };
 
 
