@@ -10,6 +10,8 @@
 <script src="main.js" charset="utf-8" type="text/javascript"></script>
 
 <body style="background-color: 474647;" onload="LoadGame()">
+    <h1 class="h1">Walk The Line</h1>
+    <br>
     <div class="centreFocus">
         <button class="myButton" id="SpeedUp" onclick="SpeedGameUp()">Manual Progress</button>
     </div>
@@ -65,13 +67,18 @@
         </div>
     </div>
     <br>
-    <div>
+    <br>
+    <br>
+    <h2 class="h2">Upgrade Shop</h2>
+    <div id="upgrades">
         <button class="myButton" id="RespectUpgrade" onclick="BuyRespectUpgrade(3)">Triple Respect Per Second</button>
         <button class="myButton" id="GBUpgrade" onclick="BuyGoodBehaviourUpgrade(3)">Upgrade Good Behaviour Per Second</button>
     </div>
     <br>
-
-    <button class="myButton" id="HardReset" onclick="ResetButton()">Hard Reset Button</button>
+    <br>
+    <br>
+    <br>
+    <button class="HardReset" id="HardReset" onclick="ResetButton()">Hard Reset Button</button>
 </body>
 
 </html>

@@ -169,10 +169,43 @@ input::-moz-focus-outer {
 }
 
 .paragraph {
-    color: #ffffff;
+    color: #adaaa1;
     font-family: Arial;
     font-size: 15px;
     font-weight: bold;
     text-decoration: none;
     text-shadow: 0px 1px 0px #063133;
+}
+
+.h1 {
+    font-family: Arial;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0px 1px 0px #063133;
+    text-align: center;
+}
+
+.h2 {
+    font-family: Arial;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0px 1px 0px #063133;
+}
+
+.HardReset {
+    box-shadow: inset 0px 1px 0px 0px #0742e3;
+    background: linear-gradient(to bottom, #696c70 5%, #0d131a 100%);
+    background-color: #696c70;
+    border-radius: 6px;
+    border: 1px solid #081e5e;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #063133;
+    opacity: 0.1;
 }
